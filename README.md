@@ -26,9 +26,6 @@ Library-Management-System/
 ├── database/                # Database files
 │   └── library.db           # SQLite database
 │
-├── ui/                      # PyQt UI files (from Qt Designer)
-│   └── main_window.ui       # Main window design
-│
 ├── src/                     # Source code
 │   ├── models/              # Database models
 │   │   ├── book.py          # Book model
@@ -43,6 +40,8 @@ Library-Management-System/
 │   ├── views/               # PyQt UI logic
 │   │   ├── main_window.py   # Main window logic
 │   │   └── dialogs/         # Popup dialogs
+│   │       ├── add_book_dialog.py
+│   │       └── add_member_dialog.py
 │   │
 │   └── main.py              # Entry point
 │
