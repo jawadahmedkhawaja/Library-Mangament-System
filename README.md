@@ -53,7 +53,7 @@ Library-Management-System/
 ## **🚀 Installation & Setup**  
 ### **1. Clone the Repository**  
 ```bash
-git clone https://github.com/yourusername/Library-Management-System.git
+git clone https://github.com/jawadahmedkhawaja/Library-Mangament-System.git
 cd Library-Management-System
 ```
 
