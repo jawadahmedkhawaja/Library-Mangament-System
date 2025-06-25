@@ -1,11 +1,5 @@
 # Library Management System using Django
 
-## Purpose
-
-To clearly **define the goals, scope, users, and functions** of the system. You are the **customer** here — you will tell yourself exactly what the system should do.
-
----
-
 ## 1. **Project Title:**
 
 **Library Management System (LMS)** using Django
