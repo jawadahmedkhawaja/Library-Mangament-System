@@ -5,6 +5,7 @@ from django.contrib import messages
 def add_Book(request):
     if request.method == 'POST':
         data = request.POST
+        print(data)
         title = data.get('title')
         author = data.get('author')
         isbn = data.get('isbn')
@@ -26,9 +27,9 @@ def add_Book(request):
                     category =  category_
         )
         messages.info(request,f'Book "{title}" added Successfully!')
-        return redirect('/')
+        return redirect('view-books/')
     
-    return render(request,'add_book.html')
+    return render(request,'add_book.html', context={'page':'Add Book'})
 
 def delete_book(request):
     pass
@@ -43,4 +44,7 @@ def view_books(request):
     pass
 
 def search_book(request):
+    pass
+
+def issue_book(request,book_name):
     pass
