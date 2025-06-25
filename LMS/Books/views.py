@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from .models import Book
 
 def add_Book(request):
-    
+    if request.method == 'POST':
+        data = request.POST.get()
 
 def delete_book(request):
     pass
