@@ -34,7 +34,7 @@ def delete_book(request,isbn):
     book = get_object_or_404(Book, isbn=isbn)
     book.delete()
     messages.success(request,f'Book with ISBN Number: {isbn} is Deleted!')
-    return redirect('view-books/')
+    return redirect('view_books')
 
 def update_book(request, isbn):
     book = get_object_or_404(Book, isbn=isbn)
@@ -71,7 +71,8 @@ def return_book(request,isbn):
     pass
 
 def view_books(request):
-    pass
+    books  = Book.objects.all()
+    return render(request,'view_books.html',context={'page':'Books','books':books})
 
 def search_book(request):
     pass

@@ -4,6 +4,9 @@ from accounts.models import MemberProfile
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
+    def __str__(self) -> str:
+        return self.name
+
 class Book(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
@@ -12,6 +15,11 @@ class Book(models.Model):
     quantity = models.IntegerField()
     available_count = models.IntegerField()
 
+
+    class Meta:
+        ordering = ['title']
+
+        
     def __str__(self):
         return self.title
 
@@ -25,3 +33,7 @@ class IssueRecord(models.Model):
 
     def __str__(self):
         return f"{self.member.user.username} - {self.book.title}"
+
+
+
+

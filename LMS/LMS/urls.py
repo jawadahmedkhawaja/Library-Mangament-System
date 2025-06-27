@@ -11,7 +11,7 @@ urlpatterns = [
     path('return-book/',return_book,name='return_book'),
     path('issue-book/',issue_book,name='issue_book'),
     path('delete-book/<isbn>/', delete_book, name='delete_book'),
-    path('update-book/',update_book,name='update_book'),
+    path('update-book/<isbn>/',update_book,name='update_book'),
     path('view-books/',view_books,name='view_books'),
     
 ]

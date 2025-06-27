@@ -1,60 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-
 <div class="main">
-        <h1>Update Book</h1>
+    <h1>Update Book</h1>
 
-        <form action="{%url 'add_book' %}" method="POST">
-            {% csrf_token %}
-            {% if messages %}
-                {% for message in messages %}
+    <form action="{% url 'update_book' book.isbn %}" method="POST">
+        {% csrf_token %}
+        
+        {% if messages %}
+            {% for message in messages %}
                 <p style="color: red;">{{ message }}</p>
             {% endfor %}
-            {% endif %}
-            <label>
-                Book Name:
-            </label>
-            <input type="text" name="title" 
-                placeholder="{{book.title}}" required>
+        {% endif %}
 
-            <label">
-                Book Author:
-            </label>
-            <input type="text" name="author" 
-                placeholder="{{book.author}}" required>
+        <label>Book Name:</label>
+        <input type="text" name="title" value="{{ book.title }}">
 
-            <label>
-                Book ISBN:
-            </label>
-            <input type="text" name="isbn" 
-                placeholder="{{book.isbn}}" required>
+        <label>Book Author:</label>
+        <input type="text" name="author" value="{{ book.author }}">
 
-            <label>
-                Book Quantity:
-            </label>
-            <input type="number" name="quantity" 
-                placeholder="{{book.quantity}}" required>
-            
-            <label>
-                Number of Books Available:
-            </label>
-            <input type="number" name="available_count" 
-                placeholder="{{book.available_count}}" required>
-            <label>
-                Category:
-            </label>
-            <input type="text"  name="category" 
-                placeholder="{{book.category.name}}" required>
+        <label>Book ISBN:</label>
+        <input type="text" name="isbn" value="{{ book.isbn }}" readonly>
 
-            <div class="wrap">
-                <button type="submit">
-                    Update
-                </button>
-            </div>
-        </form>
-    </div>
+        <label>Book Quantity:</label>
+        <input type="number" name="quantity" value="{{ book.quantity }}">
 
+        <label>Number of Books Available:</label>
+        <input type="number" name="available_count" value="{{ book.available_count }}">
 
+        <label>Category:</label>
+        <input type="text" name="category" value="{{ book.category.name }}">
+
+        <div class="wrap">
+            <button type="submit">Update</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
