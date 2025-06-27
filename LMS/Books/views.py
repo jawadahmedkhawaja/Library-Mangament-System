@@ -1,6 +1,11 @@
 from django.shortcuts import render,redirect, get_object_or_404
-from .models import Book,Category
+from .models import Book,Category, IssueRecord
+from accounts.models import MemberProfile
 from django.contrib import messages
+from django.utils import timezone
+from datetime import timedelta
+from datetime import date
+
 
 def add_book(request):
     if request.method == 'POST':
@@ -67,15 +72,57 @@ def update_book(request, isbn):
     return render(request, 'update_book.html', context={'page': 'Update Books', 'book': book})
 
 
-def return_book(request,isbn):
-    pass
+def return_book(request, isbn):
+    fine = 0
+    if request.method == 'POST':
+        member = get_object_or_404(MemberProfile, user=request.user)
+        book = get_object_or_404(Book,isbn=isbn)
+
+        issue = IssueRecord.objects.get(member=member,book=book,is_returned=False)
+
+        if issue:
+            today = date.today()
+            if today > issue.return_date:
+                days_late = (today - issue.return_date).days
+                fine = days_late * 10
+
+            issue.is_returned = True
+            issue.fine = fine
 
 def view_books(request):
     books  = Book.objects.all()
     return render(request,'view_books.html',context={'page':'Books','books':books})
 
 def search_book(request):
-    pass
+    title = request.GET.get('q')
+    book = Book.objects.filter(title__icontains=title)
+    return render(request,'view_books.html',context={'page':title if book.exists() else 'Not Found','books':book})
 
-def issue_book(request,book_name):
-    pass
+def issue_book(request):
+    if request.method == 'POST':
+        member_id = request.POST.get('member_id')
+        book_isbn= request.POST.get('isbn')
+        days = abs(request.POST.get('days')
+        )
+
+        
+        member = get_object_or_404(MemberProfile, user=request.user)
+        book = get_object_or_404(Book,isbn=book_isbn)
+        return_date = timezone.now().date() + timedelta(days=days)
+
+        if book.available_count == 0:
+            messages.error(request,f'Book with ISBN: {book_isbn} not Found, Try Again!')
+            return redirect('view_books')
+        
+        IssueRecord.objects.create(
+                member = member,
+                book = book,
+                return_date = return_date
+        )
+        book.available_count -= 1
+        book.save()
+
+        messages.info(request,f'''Book with ISBN: {book_isbn} Issued to {member.user.username} Successfully!\n
+                    Don't Forget to return it before {return_date}. After that you will be fined.''')
+        return redirect('view_books')
+    return render(request,'issue_book.html',context={'page':'Issue Book'})

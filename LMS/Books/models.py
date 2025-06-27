@@ -1,5 +1,8 @@
 from django.db import models
 from accounts.models import MemberProfile
+from django.utils import timezone
+from datetime import timedelta
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -26,7 +29,7 @@ class Book(models.Model):
 class IssueRecord(models.Model):
     member = models.ForeignKey(MemberProfile, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    issue_date = models.DateField()
+    issue_date = models.DateField(auto_now_add=True)
     return_date = models.DateField()
     is_returned = models.BooleanField(default=False)
     fine = models.IntegerField(default=0)
