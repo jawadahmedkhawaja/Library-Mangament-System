@@ -1,0 +1,22 @@
+<h2>Your Total Fine: Rs. {{ total_fine }}</h2>
+
+<table>
+    <tr>
+        <th>Book</th>
+        <th>Due Date</th>
+        <th>Fine</th>
+    </tr>
+    {% for issue in issue_records %}
+        <tr>
+            <td>{{ issue.book.title }}</td>
+            <td>{{ issue.return_date }}</td>
+            <td>
+                {% if issue.fine > 0 %}
+                    Rs. {{ issue.fine }}
+                {% else %}
+                    No fine
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

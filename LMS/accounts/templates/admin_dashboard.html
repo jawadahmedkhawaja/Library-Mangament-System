@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="nav bar">
+          <nav>
+        <a class="btn btn-primary" href="{% url  'admin_dashboard'%}">Home</a>
+        |
+        <a class="btn btn-primary" href="{% url  'add_member'%}">Add Member</a>
+        |
+        <a class="btn btn-primary" href="{% url  'view_books'%}">View Books and More...</a>
+        |
+        <a class="btn btn-primary" href="{% url  'logout'%}">Logout</a>
+    </nav>
+    </div>
+    <h1>Hey {{user}}!</h1>
+    <hr>
+    <div class="title">
+        <h2>Books in the Library: {{total_books}}</h2> 
+        <hr>
+        <h2>Available Book for Borrowing: {{available_books}}</h2>
+        <hr>
+        <h2>Fine Collected: {{fine_collected}}</h2>
+        <hr>
+        <h2>Fine Remained (Not Collected): {{fine_remaining}}</h2>
+    </div>
+{% endblock %}
+

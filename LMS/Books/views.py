@@ -88,6 +88,14 @@ def return_book(request, isbn):
 
             issue.is_returned = True
             issue.fine = fine
+            issue.save()
+            book.available_count += 1
+            book.save()
+
+        if request.user.is_admin:
+            return redirect('admin_dashboard')
+        else:
+            return redirect('member_dashboard')
 
 def view_books(request):
     books  = Book.objects.all()
@@ -96,7 +104,11 @@ def view_books(request):
 def search_book(request):
     title = request.GET.get('q')
     book = Book.objects.filter(title__icontains=title)
-    return render(request,'view_books.html',context={'page':title if book.exists() else 'Not Found','books':book})
+
+    if request.user.is_admin:
+        return render(request,'view_books.html',context={'page':title if book.exists() else 'Not Found','books':book})
+    else:
+        return render(request,'view_books_m.html',context={'page':'Book Search','books':book})
 
 def issue_book(request):
     if request.method == 'POST':
@@ -126,3 +138,26 @@ def issue_book(request):
                     Don't Forget to return it before {return_date}. After that you will be fined.''')
         return redirect('view_books')
     return render(request,'issue_book.html',context={'page':'Issue Book'})
+
+
+def user_fine_view(request):
+    member = get_object_or_404(MemberProfile, user=request.user)
+    
+    today = date.today()
+
+    active_issues = IssueRecord.objects.filter(member=member, is_returned=False)
+
+    total_fine = 0
+
+    for issue in active_issues:
+        if today > issue.return_date:
+            days_late = (today - issue.return_date).days
+            issue.fine = days_late * 10
+            issue.save()
+            total_fine += issue.fine
+
+    return render(request, 'user_fine.html', {
+        'total_fine': total_fine,
+        'issue_records': active_issues
+    })
+

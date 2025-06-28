@@ -8,13 +8,6 @@
     <p style="color: red;">{{ message }}</p>
   {% endfor %}
 {% endif %}
-
-  <form method="GET" action="{% url 'search_book' %}">
-    <input type="text" name="q" placeholder="Search..." required>
-    <button type="submit">Search</button>
-</form>
-
-
 <table class="table table-dark">
   <thead>
     <tr>
@@ -33,8 +26,7 @@
       <td>{{book.author}}</td>
       <td>{{book.category.name}}</td>
       <td>{{book.available_count}}</td>
-      <td><a class="btn btn-danger" href="{% url 'delete_book' book.isbn%}">Delete</a></td>
-      <td><a class="btn btn-danger" href="{% url 'update_book' book.isbn%}">Update</a></td>
+      <td><a class="btn btn-danger" href="{% url 'issue_book'%}">Issue Book</a></td>
     </tr>
     {% endfor %}
   </tbody>
